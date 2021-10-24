@@ -1,7 +1,16 @@
+//components
+import { Container, Row, Col } from "react-bootstrap";
+
 const Admin = () => {
   return (
     <>
-      <h1>Admin</h1>
+      <Container>
+        <Row>
+          <Col>
+            <h1>Admin dashboard</h1>
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 };

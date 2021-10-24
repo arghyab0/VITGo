@@ -1,7 +1,13 @@
+//components
+import { Container } from "react-bootstrap";
+import Dashboard from "../components/Dashboard";
+
 const Home = () => {
   return (
     <>
-      <h1>Home</h1>
+      <Container>
+        <Dashboard />
+      </Container>
     </>
   );
 };

@@ -1,12 +1,12 @@
 //components
 import { Container } from "react-bootstrap";
-import Dashboard from "../components/Dashboard";
+import Student from "./Student";
 
 const Home = () => {
   return (
     <>
       <Container>
-        <Dashboard />
+        <Student />
       </Container>
     </>
   );

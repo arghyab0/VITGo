@@ -2,7 +2,7 @@
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-const StudentOutings = (props) => {
+const ManagerCards = (props) => {
   return (
     <Card>
       <Card.Body>
@@ -19,4 +19,4 @@ const StudentOutings = (props) => {
   );
 };
 
-export default StudentOutings;
+export default ManagerCards;

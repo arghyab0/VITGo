@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Admin from "./pages/Admin";
 import Requests from "./pages/Requests";
 import Header from "./components/Header";
+import Manager from "./pages/Manager";
 
 function App() {
   return (
@@ -18,6 +19,11 @@ function App() {
           <Route exact path="/">
             <Header />
             <Home />
+          </Route>
+
+          <Route exact path="/man">
+            <Header />
+            <Manager />
           </Route>
 
           <Route path="/admin">

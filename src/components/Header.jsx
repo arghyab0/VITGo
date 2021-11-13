@@ -22,6 +22,9 @@ const Header = () => {
               <Link to="/requests">Requests</Link>
             </Nav.Link>
             <Nav.Link>
+              <Link to="/requests">Students</Link>
+            </Nav.Link>
+            <Nav.Link>
               <Identicon string="random" size="40" id="navbar-avatar" />
             </Nav.Link>
           </Nav>

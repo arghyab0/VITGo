@@ -6,6 +6,7 @@ import Admin from "./pages/Admin";
 import Requests from "./pages/Requests";
 import Header from "./components/Header";
 import Manager from "./pages/Manager";
+import StudentList from "./components/StudentList";
 
 function App() {
   return (
@@ -33,6 +34,11 @@ function App() {
           <Route path="/requests">
             <Header />
             <Requests />
+          </Route>
+
+          <Route path="/students">
+            <Header />
+            <StudentList />
           </Route>
         </Switch>
       </Router>

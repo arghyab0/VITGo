@@ -1,6 +1,7 @@
 //components
 import { Container, Row, Col } from "react-bootstrap";
 import ManagerCards from "../components/ManagerCards";
+import OutingList from "../components/OutingList";
 
 const Manager = () => {
   return (
@@ -16,25 +17,21 @@ const Manager = () => {
               <Col md={6} className="mb-3">
                 <ManagerCards
                   title="Students checked-out"
-                  linkDest="/requests"
-                  linkText="New request"
+                  linkDest="/students"
+                  linkText="View checked-out students"
                 />
               </Col>
               <Col md={6} className="mb-3">
                 <ManagerCards
                   title="Blacklist"
-                  linkDest="/requests"
-                  linkText="View history"
+                  linkDest="/students"
+                  linkText="View blacklisted students"
                 />
               </Col>
             </Row>
-            <Row className="mt-4">
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Provident quaerat vero dolores odio! Dolorum, omnis ipsum. Animi
-                non architecto voluptatibus? Odio eum blanditiis facere aut
-                officiis tenetur inventore repudiandae tempora?
-              </p>
+            <Row className="mt-5">
+              <h3 className="mb-4">Outing requests</h3>
+              <OutingList />
             </Row>
           </Col>
           <Col md={1}></Col>

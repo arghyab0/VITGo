@@ -70,7 +70,7 @@ const RequestForm = () => {
 
         <Form.Group as={Row}>
           <Col className="d-flex justify-content-center">
-            <Button type="submit">Sign in</Button>
+            <Button type="submit">Submit request</Button>
           </Col>
         </Form.Group>
       </Form>

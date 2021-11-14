@@ -34,6 +34,7 @@ function App() {
           </Route>
 
           <Route path="/admin">
+            <Header />
             <Admin />
           </Route>
 

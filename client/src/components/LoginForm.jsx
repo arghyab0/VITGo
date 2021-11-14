@@ -4,7 +4,7 @@ import { Row, Col, Form, Button } from "react-bootstrap";
 const LoginForm = () => {
   return (
     <>
-      <Row className="mt-5 mb-5">
+      <Row className="mt-5 mb-4">
         <Col style={{ display: "flex", justifyContent: "center" }}>
           <h1>Login</h1>
         </Col>

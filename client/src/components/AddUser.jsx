@@ -5,10 +5,10 @@ import ConfirmationModal from "./ConfirmationModal";
 
 const AddUser = () => {
   const [userID, setUserID] = useState("");
-  const [name, setName] = useState("");
+  const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [type, setType] = useState("");
+  const [userType, setUserType] = useState("");
   const [modalShow, setModalShow] = useState(false);
 
   // console.log(userID, name, email, password, type);
@@ -44,8 +44,8 @@ const AddUser = () => {
             <Form.Control
               type="text"
               placeholder="Display name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={displayName}
+              onChange={(e) => setDisplayName(e.target.value)}
             />
           </Col>
         </Form.Group>
@@ -85,8 +85,8 @@ const AddUser = () => {
           <Col xs={8}>
             <Form.Select
               defaultValue="Choose"
-              value={type}
-              onChange={(e) => setType(e.target.value)}
+              value={userType}
+              onChange={(e) => setUserType(e.target.value)}
             >
               <option>Student</option>
               <option>Hostel manager</option>

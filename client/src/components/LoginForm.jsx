@@ -4,42 +4,31 @@ import { Row, Col, Form, Button } from "react-bootstrap";
 const LoginForm = () => {
   return (
     <>
-      <Row className="mt-5 mb-4">
-        <Col style={{ display: "flex", justifyContent: "center" }}>
-          <h1>Login</h1>
-        </Col>
-      </Row>
-      <Row>
-        <Col md={4}></Col>
-        <Col md={4}>
-          <Form>
-            <Form.Group as={Row} className="mb-4">
-              <Form.Label column sm="4">
-                Username
-              </Form.Label>
-              <Col sm="8">
-                <Form.Control type="text" placeholder="Username" />
-              </Col>
-            </Form.Group>
+      <Form>
+        <Form.Group as={Row} className="mb-4">
+          <Form.Label column xs={4}>
+            User ID
+          </Form.Label>
+          <Col xs={8}>
+            <Form.Control type="text" placeholder="User ID" />
+          </Col>
+        </Form.Group>
 
-            <Form.Group as={Row} className="mb-4">
-              <Form.Label column sm="4">
-                Password
-              </Form.Label>
-              <Col sm="8">
-                <Form.Control type="password" placeholder="Password" />
-              </Col>
-            </Form.Group>
+        <Form.Group as={Row} className="mb-5">
+          <Form.Label column xs={4}>
+            Password
+          </Form.Label>
+          <Col xs={8}>
+            <Form.Control type="password" placeholder="Password" />
+          </Col>
+        </Form.Group>
 
-            <Form.Group as={Row}>
-              <Col style={{ textAlign: "center" }}>
-                <Button type="submit">Login</Button>
-              </Col>
-            </Form.Group>
-          </Form>
-        </Col>
-        <Col md={4}></Col>
-      </Row>
+        <Form.Group as={Row}>
+          <Col className="d-flex justify-content-center">
+            <Button type="submit">Login</Button>
+          </Col>
+        </Form.Group>
+      </Form>
     </>
   );
 };

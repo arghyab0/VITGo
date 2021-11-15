@@ -12,7 +12,13 @@ const AddUser = () => {
   const [userType, setUserType] = useState("");
   const [modalShow, setModalShow] = useState(false);
 
-  // console.log(userID, name, email, password, type);
+  const resetFields = () => {
+    setUserID("");
+    setDisplayName("");
+    setEmail("");
+    setPassword("");
+    setUserType("");
+  };
 
   const addUser = async (e) => {
     e.preventDefault();
@@ -26,6 +32,7 @@ const AddUser = () => {
         userType,
       });
       console.log(res.data);
+      resetFields();
     } catch (err) {
       console.log(err.response.data);
     }

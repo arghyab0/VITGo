@@ -1,6 +1,7 @@
 //imports
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 //model
 const User = require("../models/User");
@@ -21,6 +22,30 @@ router.post("/register", async (req, res) => {
 
     const user = await newUser.save();
     res.status(200).json(user);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//login route
+router.post("/login", async (req, res) => {
+  try {
+    const user = await User.findOne({ userID: req.body.userID });
+    !user && res.status(400).json("User ID not present!");
+
+    const validated = await bcrypt.compare(req.body.password, user.password);
+    !validated && res.status(400).json("Incorrect credentials!");
+
+    const jwttoken = jwt.sign(
+      {
+        userID: user.userID,
+        displayName: user.displayName,
+      },
+      "randomverydifficultstring"
+    );
+
+    const { password, ...rest } = user._doc;
+    res.status(200).json({ ...rest, jwttoken });
   } catch (err) {
     res.status(500).json(err);
   }

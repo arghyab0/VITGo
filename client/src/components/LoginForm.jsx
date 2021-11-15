@@ -16,6 +16,8 @@ const LoginForm = () => {
         password,
       });
       console.log(res.data);
+      localStorage.setItem("jwttoken", res.data.jwttoken);
+      window.location.href = "/";
     } catch (err) {
       console.log(err.response.data);
     }

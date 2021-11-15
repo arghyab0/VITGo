@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import ConfirmationModal from "./ConfirmationModal";
+import axios from "axios";
 
 const AddUser = () => {
   const [userID, setUserID] = useState("");
@@ -13,9 +14,21 @@ const AddUser = () => {
 
   // console.log(userID, name, email, password, type);
 
-  const addUser = (e) => {
+  const addUser = async (e) => {
     e.preventDefault();
 
+    try {
+      const res = await axios.post("/api/auth/register", {
+        userID,
+        displayName,
+        email,
+        password,
+        userType,
+      });
+      console.log(res.data);
+    } catch (err) {
+      console.log(err.response.data);
+    }
     // setModalShow(true);
   };
 

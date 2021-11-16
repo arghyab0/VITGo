@@ -7,33 +7,6 @@ const RequestForm = () => {
       <Form>
         <Form.Group as={Row} className="mb-3">
           <Form.Label column xs={3}>
-            Reg. no.
-          </Form.Label>
-          <Col xs={9}>
-            <Form.Control type="text" placeholder="Registration number" />
-          </Col>
-        </Form.Group>
-
-        <Form.Group as={Row} className="mb-3">
-          <Form.Label column xs={3}>
-            Name
-          </Form.Label>
-          <Col xs={9}>
-            <Form.Control type="text" placeholder="Name" />
-          </Col>
-        </Form.Group>
-
-        <Form.Group as={Row} className="mb-3">
-          <Form.Label column xs={3}>
-            Email
-          </Form.Label>
-          <Col xs={9}>
-            <Form.Control type="email" placeholder="Email" />
-          </Col>
-        </Form.Group>
-
-        <Form.Group as={Row} className="mb-3">
-          <Form.Label column xs={3}>
             Contact no.
           </Form.Label>
           <Col xs={9}>

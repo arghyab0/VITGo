@@ -7,7 +7,7 @@ const Request = require("../models/Request");
 
 //create a new request
 router.post("/", async (req, res) => {
-  const randToken = Math.round(Math.random() * 10000);
+  const randToken = Math.floor(1000 + Math.random() * 9000);
 
   try {
     const newRequest = new Request({
@@ -18,6 +18,33 @@ router.post("/", async (req, res) => {
     });
 
     const request = await newRequest.save();
+    res.status(200).json(request);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//get all requests
+router.get("/", async (req, res) => {
+  const uid = req.query.uid;
+  try {
+    let requests;
+    if (uid) {
+      requests = await Request.find({ issuedBy: uid }); //same as -> requests = await Request.find({username: username})
+    } else {
+      requests = await Request.find();
+    }
+
+    res.status(200).json(requests);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//get one request
+router.get("/:id", async (req, res) => {
+  try {
+    const request = await Request.findById(req.params.id);
     res.status(200).json(request);
   } catch (err) {
     res.status(500).json(err);

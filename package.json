@@ -1,0 +1,30 @@
+{
+  "name": "vitgo",
+  "version": "1.0.0",
+  "description": "outing management platform for VITAP",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arghyab0/VITGo.git"
+  },
+  "author": "arghyab0",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arghyab0/VITGo/issues"
+  },
+  "homepage": "https://github.com/arghyab0/VITGo#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.0.12"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}

@@ -53,34 +53,34 @@ router.get("/:id", async (req, res) => {
 
 //accept/reject request (manager)
 router.put("/:id", async (req, res) => {
-  //if user is a student
-  // if (req.body.userType === "Student") {
-  //   try {
-  //     const updatedRequest = await Request.findByIdAndUpdate(
-  //       req.params.id,
-  //       {
-  //         $set: req.body,
-  //       },
-  //       { new: true }
-  //     );
-  //     res.status(200).json(updatedRequest);
-  //   } catch (err) {
-  //     res.status(500).json(err);
-  //   }
-  // }
-
   //if user is a hostel manager
   if (req.body.userType === "Manager") {
     try {
-      const updatedRequest = await Request.findByIdAndUpdate(
-        req.params.id,
-        {
-          requestStatus: req.body.requestStatus,
-        },
-        { new: true }
-      );
-      res.status(200).json(updatedRequest);
-    } catch (err) {
+      const request = await Request.findById(req.params.id);
+      const issuer = await User.findById(request.issuedBy);
+
+      if (issuer.userStatus === "IN") {
+        try {
+          const updatedRequest = await Request.findByIdAndUpdate(
+            req.params.id,
+            {
+              requestStatus: req.body.requestStatus,
+            },
+            { new: true }
+          );
+
+          res.status(200).json(updatedRequest);
+        } catch (err) {
+          res.status(500).json(err);
+        }
+      } else {
+        res
+          .status(500)
+          .json(
+            "Student is blacklisted. Un-blacklist before accepting outing request."
+          );
+      }
+    } catch (error) {
       res.status(500).json(err);
     }
   } else {

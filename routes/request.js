@@ -89,24 +89,22 @@ router.put("/:id", async (req, res) => {
 });
 
 //checkin/checkout request (security)
-router.put("/", async (req, res) => {
+router.put("/security", async (req, res) => {
   //if user is a security personnel
   if (req.body.userType === "Security") {
     try {
-      const issuer = await User.findOne({ userID: req.body.userID });
-
-      console.log(issuer);
+      const issuer = await User.findOne({ userID: req.body.userID }); //find doc id of student
 
       try {
         let newStatus;
 
+        //get the request that matches doc id & token
         const request = await Request.findOne({
           issuedBy: String(issuer._id),
           token: req.body.token,
         });
 
-        console.log(request);
-
+        //checks depending on the outing status
         if (request.requestStatus === "APPROVED") newStatus = "ONGOING";
         if (request.requestStatus === "ONGOING") newStatus = "COMPLETED";
         if (request.requestStatus === "REJECTED")

@@ -16,4 +16,46 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+//blacklist students (manager)
+router.put("/blacklist/:id", async (req, res) => {
+  //if user is a hostel manager
+  if (req.body.userType === "Manager") {
+    try {
+      const updatedUser = await User.findByIdAndUpdate(
+        req.params.id,
+        {
+          userStatus: "BLACKLIST",
+        },
+        { new: true }
+      );
+      res.status(200).json(updatedUser);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  } else {
+    res.status(500).json("You are authorized to perform this action.");
+  }
+});
+
+//unblacklist students (manager)
+router.put("/unblacklist/:id", async (req, res) => {
+  //if user is a hostel manager
+  if (req.body.userType === "Manager") {
+    try {
+      const updatedUser = await User.findByIdAndUpdate(
+        req.params.id,
+        {
+          userStatus: "IN",
+        },
+        { new: true }
+      );
+      res.status(200).json(updatedUser);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  } else {
+    res.status(500).json("You are authorized to perform this action.");
+  }
+});
+
 module.exports = router;

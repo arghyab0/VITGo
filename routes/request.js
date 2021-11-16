@@ -51,4 +51,90 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+//accept/reject request (manager)
+router.put("/:id", async (req, res) => {
+  //if user is a student
+  // if (req.body.userType === "Student") {
+  //   try {
+  //     const updatedRequest = await Request.findByIdAndUpdate(
+  //       req.params.id,
+  //       {
+  //         $set: req.body,
+  //       },
+  //       { new: true }
+  //     );
+  //     res.status(200).json(updatedRequest);
+  //   } catch (err) {
+  //     res.status(500).json(err);
+  //   }
+  // }
+
+  //if user is a hostel manager
+  if (req.body.userType === "Manager") {
+    try {
+      const updatedRequest = await Request.findByIdAndUpdate(
+        req.params.id,
+        {
+          requestStatus: req.body.requestStatus,
+        },
+        { new: true }
+      );
+      res.status(200).json(updatedRequest);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  } else {
+    res.status(500).json("You are authorized to perform this action.");
+  }
+});
+
+//checkin/checkout request (security)
+router.put("/", async (req, res) => {
+  //if user is a security personnel
+  if (req.body.userType === "Security") {
+    try {
+      const issuer = await User.findOne({ userID: req.body.userID });
+
+      console.log(issuer);
+
+      try {
+        let newStatus;
+
+        const request = await Request.findOne({
+          issuedBy: String(issuer._id),
+          token: req.body.token,
+        });
+
+        console.log(request);
+
+        if (request.requestStatus === "APPROVED") newStatus = "ONGOING";
+        if (request.requestStatus === "ONGOING") newStatus = "COMPLETED";
+        if (request.requestStatus === "REJECTED")
+          res.status(500).json("Outing request has been rejected.");
+        if (request.requestStatus === "COMPLETED")
+          res.status(500).json("Outing request is already completed.");
+
+        try {
+          const updatedRequest = await Request.findByIdAndUpdate(
+            request._id,
+            {
+              requestStatus: newStatus,
+            },
+            { new: true }
+          );
+          res.status(200).json(updatedRequest);
+        } catch (err) {
+          res.status(500).json(err);
+        }
+      } catch (err) {
+        res.status(500).json("User-token combo is incorrect.");
+      }
+    } catch (err) {
+      res.status(500).json("User is not regsitered.");
+    }
+  } else {
+    res.status(500).json("You are authorized to perform this action.");
+  }
+});
+
 module.exports = router;

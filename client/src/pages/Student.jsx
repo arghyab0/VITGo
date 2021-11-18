@@ -1,6 +1,7 @@
 //components
 import { Container, Row, Col } from "react-bootstrap";
 import StudentOutings from "../components/StudentOutings";
+import BlacklistStatusCard from "../components/BlacklistStatusCard";
 
 //stylesheet
 import "./stlyes/student.css";
@@ -34,7 +35,7 @@ const Student = () => {
                 />
               </Col>
               <Col md={4} className="mb-3">
-                <StudentOutings title="Blacklist status" />
+                <BlacklistStatusCard />
               </Col>
             </Row>
             <Row className="mt-4">

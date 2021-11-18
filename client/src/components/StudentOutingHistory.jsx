@@ -4,13 +4,14 @@ import { useLocation } from "react-router-dom";
 import { Table } from "react-bootstrap";
 import axios from "axios";
 
-const OutingHistory = () => {
+const StudentOutingHistory = () => {
   const [requests, setRequests] = useState([]);
   const { search } = useLocation();
 
   useEffect(() => {
     const fetchRequests = async () => {
       const res = await axios.get("/api/request/" + search);
+      res.data.sort((a, b) => (a._id > b._id ? -1 : b._id > a._id ? 1 : 0));
       setRequests(res.data);
     };
     fetchRequests();
@@ -21,7 +22,6 @@ const OutingHistory = () => {
     <Table responsive>
       <thead>
         <tr>
-          <th>#</th>
           {["Raised at", "Request status", "Token"].map((item, index) => (
             <th key={index}>{item}</th>
           ))}
@@ -29,10 +29,9 @@ const OutingHistory = () => {
       </thead>
       <tbody>
         {requests.map(
-          (item, index) =>
+          (item) =>
             item.issuedBy === "6193b68bb2b336e4d2335211" && (
               <tr key={item.id}>
-                <td>{index + 1}</td>
                 <td>
                   {`${new Date(item.createdAt).toDateString()} ${new Date(
                     item.createdAt
@@ -48,4 +47,4 @@ const OutingHistory = () => {
   );
 };
 
-export default OutingHistory;
+export default StudentOutingHistory;

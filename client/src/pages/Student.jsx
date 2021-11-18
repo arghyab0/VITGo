@@ -1,6 +1,7 @@
 //components
 import { Container, Row, Col } from "react-bootstrap";
 import StudentOutings from "../components/StudentOutings";
+import TotalRequestsCard from "../components/TotalRequestsCard";
 import BlacklistStatusCard from "../components/BlacklistStatusCard";
 
 //stylesheet
@@ -16,17 +17,16 @@ const Student = () => {
             <Row className="mt-5">
               <h1>Hi, Arghya</h1>
             </Row>
+
             <Row className="mt-5">
               <h4>Current status: token generated - 2134</h4>
             </Row>
+
             <Row className="mt-5">
               <Col md={4} className="mb-3">
-                <StudentOutings
-                  title="Total requests"
-                  linkDest="/requests"
-                  linkText="New request"
-                />
+                <TotalRequestsCard />
               </Col>
+
               <Col md={4} className="mb-3">
                 <StudentOutings
                   title="Request history"
@@ -34,10 +34,12 @@ const Student = () => {
                   linkText="View history"
                 />
               </Col>
+
               <Col md={4} className="mb-3">
                 <BlacklistStatusCard />
               </Col>
             </Row>
+
             <Row className="mt-4">
               <p>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.

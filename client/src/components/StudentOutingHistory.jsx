@@ -15,7 +15,6 @@ const StudentOutingHistory = () => {
       setRequests(res.data);
     };
     fetchRequests();
-    console.log(requests);
   }, [search]);
 
   return (

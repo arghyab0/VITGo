@@ -2,7 +2,7 @@
 import { Container, Row, Col } from "react-bootstrap";
 import StudentsOutCard from "../components/StudentsOutCard";
 import BlacklistedCard from "../components/BlacklistedCard";
-import OutingList from "../components/OutingList";
+import ManagerOutingList from "../components/ManagerOutingList";
 
 const Manager = () => {
   return (
@@ -27,7 +27,7 @@ const Manager = () => {
 
             <Row className="mt-5">
               <h3 className="mb-4">Outing requests</h3>
-              <OutingList />
+              <ManagerOutingList />
             </Row>
           </Col>
           <Col md={1}></Col>

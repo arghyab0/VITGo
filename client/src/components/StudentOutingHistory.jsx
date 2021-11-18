@@ -11,7 +11,9 @@ const StudentOutingHistory = () => {
   useEffect(() => {
     const fetchRequests = async () => {
       const res = await axios.get("/api/request/" + search);
-      res.data.sort((a, b) => (a._id > b._id ? -1 : b._id > a._id ? 1 : 0));
+      res.data.sort((a, b) =>
+        a.createdAt > b.createdAt ? -1 : b.createdAt > a.createdAt ? 1 : 0
+      );
       setRequests(res.data);
     };
     fetchRequests();

@@ -33,7 +33,11 @@ const OutingHistory = () => {
             item.issuedBy === "6193b68bb2b336e4d2335211" && (
               <tr key={item.id}>
                 <td>{index + 1}</td>
-                <td>{item.createdAt}</td>
+                <td>
+                  {`${new Date(item.createdAt).toDateString()} ${new Date(
+                    item.createdAt
+                  ).toLocaleTimeString()}`}
+                </td>
                 <td>{item.requestStatus}</td>
                 <td>{item.token}</td>
               </tr>

@@ -108,6 +108,7 @@ const AddUser = () => {
               value={userType}
               onChange={(e) => setUserType(e.target.value)}
             >
+              <option>Choose</option>
               <option>Student</option>
               <option>Hostel manager</option>
               <option>Security personnel</option>

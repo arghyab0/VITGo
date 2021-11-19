@@ -6,17 +6,6 @@ import axios from "axios";
 const StudentList = () => {
   const [students, setStudents] = useState([]);
 
-  useEffect(() => {
-    const fetchStudents = async () => {
-      const res = await axios.get("/api/user/");
-      const studentList = res.data.filter(
-        (item) => item.userType === "Student"
-      );
-      setStudents(studentList);
-    };
-    fetchStudents();
-  }, []);
-
   const handleBlacklist = async (uid) => {
     try {
       const res = await axios.put("/api/user/blacklist/" + uid, {
@@ -38,6 +27,17 @@ const StudentList = () => {
       console.log(err.response.data);
     }
   };
+
+  useEffect(() => {
+    const fetchStudents = async () => {
+      const res = await axios.get("/api/user/");
+      const studentList = res.data.filter(
+        (item) => item.userType === "Student"
+      );
+      setStudents(studentList);
+    };
+    fetchStudents();
+  }, []);
 
   return (
     <>
@@ -68,15 +68,15 @@ const StudentList = () => {
                     <td>{item.email}</td>
                     <td>{item.userStatus}</td>
                     <td>
-                      {item.userStatus !== "Blacklist" ? (
+                      {item.userStatus !== "BLACKLIST" ? (
                         <Button
                           variant="danger"
-                          onClick={handleBlacklist(item._id)}
+                          onClick={(e) => handleBlacklist(item._id)}
                         >
                           Blacklist
                         </Button>
                       ) : (
-                        <Button onClick={handleUnBlacklist(item._id)}>
+                        <Button onClick={(e) => handleUnBlacklist(item._id)}>
                           Unblacklist
                         </Button>
                       )}

@@ -8,6 +8,28 @@ const ManagerOutingList = () => {
   const [requests, setRequests] = useState([]);
   const { search } = useLocation();
 
+  const handleAccept = async (uid) => {
+    try {
+      const res = await axios.put("/api/user/blacklist/" + uid, {
+        userType: "Manager", //get from store
+      });
+      console.log(res.data);
+    } catch (err) {
+      console.log(err.response.data);
+    }
+  };
+
+  const handleReject = async (uid) => {
+    try {
+      const res = await axios.put("/api/user/unblacklist/" + uid, {
+        userType: "Manager", //get from store
+      });
+      console.log(res.data);
+    } catch (err) {
+      console.log(err.response.data);
+    }
+  };
+
   useEffect(() => {
     const fetchRequests = async () => {
       const res = await axios.get("/api/request/" + search);

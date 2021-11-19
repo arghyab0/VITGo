@@ -52,7 +52,7 @@ router.get("/:id", async (req, res) => {
 });
 
 //accept/reject request (manager)
-router.put("/:id", async (req, res) => {
+router.put("/manager/:id", async (req, res) => {
   //if user is a hostel manager
   if (req.body.userType === "Manager") {
     try {
@@ -80,11 +80,11 @@ router.put("/:id", async (req, res) => {
             "Student is blacklisted. Un-blacklist before accepting outing request."
           );
       }
-    } catch (error) {
+    } catch (err) {
       res.status(500).json(err);
     }
   } else {
-    res.status(500).json("You are authorized to perform this action.");
+    res.status(500).json("You are not authorized to perform this action.");
   }
 });
 
@@ -100,8 +100,8 @@ router.put("/security", async (req, res) => {
 
         //get the request that matches doc id & token
         const request = await Request.findOne({
-          issuedBy: String(issuer._id),
-          token: req.body.token,
+          issuedBy: issuer._id.toHexString(),
+          token: Number(req.body.token),
         });
 
         //checks depending on the outing status
@@ -131,7 +131,7 @@ router.put("/security", async (req, res) => {
       res.status(500).json("User is not regsitered.");
     }
   } else {
-    res.status(500).json("You are authorized to perform this action.");
+    res.status(500).json("You are not authorized to perform this action.");
   }
 });
 

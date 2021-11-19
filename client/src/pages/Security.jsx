@@ -1,22 +1,22 @@
 //components
 import { Container, Row, Col } from "react-bootstrap";
-import CheckinForm from "../components/CheckinForm";
+import SecurityCheckinForm from "../components/SecurityCheckinForm";
 
 const Security = () => {
   return (
     <>
       <Container>
         <Row>
-          <Col md={1}></Col>
-          <Col md={10}>
+          <Col md={3}></Col>
+          <Col md={6}>
             <Row className="mt-5">
               <h1>Hi, securityName</h1>
             </Row>
             <Row className="mt-5">
-              <CheckinForm />
+              <SecurityCheckinForm />
             </Row>
           </Col>
-          <Col md={1}></Col>
+          <Col md={3}></Col>
         </Row>
       </Container>
     </>

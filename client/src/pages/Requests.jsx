@@ -1,7 +1,7 @@
 //components
 import { Row, Col, Container } from "react-bootstrap";
 import RequestForm from "../components/RequestForm";
-import OutingHistory from "../components/OutingHistory";
+import StudentOutingHistory from "../components/StudentOutingHistory";
 
 const Requests = () => {
   return (
@@ -18,7 +18,7 @@ const Requests = () => {
             <h3 className="d-flex justify-content-center mb-4">
               Outing request history
             </h3>
-            <OutingHistory />
+            <StudentOutingHistory />
           </Col>
         </Row>
       </Container>

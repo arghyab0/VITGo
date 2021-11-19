@@ -8,10 +8,11 @@ const ManagerOutingList = () => {
   const [requests, setRequests] = useState([]);
   const { search } = useLocation();
 
-  const handleAccept = async (uid) => {
+  const handleAccept = async (reqID) => {
     try {
-      const res = await axios.put("/api/user/blacklist/" + uid, {
+      const res = await axios.put("/api/request/" + reqID, {
         userType: "Manager", //get from store
+        requestStatus: "APPROVED",
       });
       console.log(res.data);
     } catch (err) {
@@ -19,10 +20,11 @@ const ManagerOutingList = () => {
     }
   };
 
-  const handleReject = async (uid) => {
+  const handleReject = async (reqID) => {
     try {
-      const res = await axios.put("/api/user/unblacklist/" + uid, {
+      const res = await axios.put("/api/request/" + reqID, {
         userType: "Manager", //get from store
+        requestStatus: "REJECTED",
       });
       console.log(res.data);
     } catch (err) {
@@ -58,7 +60,7 @@ const ManagerOutingList = () => {
       </thead>
       <tbody>
         {requests.map((item) => (
-          <tr key={item.id}>
+          <tr key={item._id}>
             <td>{item.issuedBy}</td>
             <td>{item.contactNo}</td>
             <td>
@@ -68,8 +70,12 @@ const ManagerOutingList = () => {
             </td>
             <td>{item.requestStatus}</td>
             <td>
-              <Button>Accept</Button>
-              <Button>Reject</Button>
+              {item.requestStatus === "RAISED" && (
+                <>
+                  <Button onClick={() => handleAccept(item._id)}>Accept</Button>
+                  <Button onClick={() => handleReject(item._id)}>Reject</Button>
+                </>
+              )}
             </td>
           </tr>
         ))}

@@ -71,12 +71,12 @@ const StudentList = () => {
                       {item.userStatus !== "BLACKLIST" ? (
                         <Button
                           variant="danger"
-                          onClick={(e) => handleBlacklist(item._id)}
+                          onClick={() => handleBlacklist(item._id)}
                         >
                           Blacklist
                         </Button>
                       ) : (
-                        <Button onClick={(e) => handleUnBlacklist(item._id)}>
+                        <Button onClick={() => handleUnBlacklist(item._id)}>
                           Unblacklist
                         </Button>
                       )}

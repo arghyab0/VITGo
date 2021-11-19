@@ -80,7 +80,7 @@ router.put("/:id", async (req, res) => {
             "Student is blacklisted. Un-blacklist before accepting outing request."
           );
       }
-    } catch (error) {
+    } catch (err) {
       res.status(500).json(err);
     }
   } else {

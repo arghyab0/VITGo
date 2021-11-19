@@ -10,7 +10,7 @@ const ManagerOutingList = () => {
 
   const handleAccept = async (reqID) => {
     try {
-      const res = await axios.put("/api/request/" + reqID, {
+      const res = await axios.put("/api/request/manager/" + reqID, {
         userType: "Manager", //get from store
         requestStatus: "APPROVED",
       });

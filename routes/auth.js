@@ -2,6 +2,7 @@
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
 
 //model
 const User = require("../models/User");
@@ -21,9 +22,26 @@ router.post("/register", async (req, res) => {
     });
 
     const user = await newUser.save();
-    res.status(200).json(user);
+    res.status(200).json({
+      ...user,
+      message: `User ${user.userID} added successfully.`,
+    });
   } catch (err) {
-    res.status(500).json(err);
+    let errMsg;
+
+    const capitalize = (word) => word.charAt(0).toUpperCase() + word.slice(1);
+
+    if (err.index === 0 && err.code === 11000) {
+      errMsg = `Error: ${capitalize(Object.keys(err.keyValue)[0])} ${
+        Object.values(err.keyValue)[0]
+      } already exists!`;
+    }
+
+    if (err.name === "ValidationError") {
+      errMsg = `Error: ${capitalize(Object.keys(err.errors)[0])} is required!`;
+    }
+
+    res.status(500).json(errMsg);
   }
 });
 
@@ -31,23 +49,26 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const user = await User.findOne({ userID: req.body.userID });
-    !user && res.status(400).json("User ID not present!");
+    !user && res.status(400).json("Error: User ID is not registered!");
 
     const validated = await bcrypt.compare(req.body.password, user.password);
-    !validated && res.status(400).json("Incorrect credentials!");
+    !validated && res.status(400).json("Error: Incorrect credentials!");
 
     const jwttoken = jwt.sign(
       {
+        _id: user._id,
         userID: user.userID,
         displayName: user.displayName,
+        email: user.email,
+        userType: user.userType,
+        userStatus: user.userStatus,
       },
-      "randomverydifficultstring"
+      process.env.JWT_KEY
     );
 
-    const { password, ...rest } = user._doc;
-    res.status(200).json({ ...rest, jwttoken });
+    res.status(200).json(jwttoken);
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json(err.message);
   }
 });
 

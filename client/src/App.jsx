@@ -9,10 +9,15 @@ import StudentList from "./components/StudentList";
 import Manager from "./pages/Manager";
 import Security from "./pages/Security";
 
+//toastify styles
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 function App() {
   return (
     <div className="App">
       <Router>
+        <ToastContainer />
         <Switch>
           <Route path="/login">
             <Login />

@@ -5,6 +5,7 @@ import App from "./App.jsx";
 
 //stylesheets
 import "bootstrap/dist/css/bootstrap.min.css";
+import "react-toastify/dist/ReactToastify.css";
 import "./global.css";
 
 //redux store

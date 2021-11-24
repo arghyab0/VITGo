@@ -1,16 +1,21 @@
 //components
 import { useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
-import ConfirmationModal from "./ConfirmationModal";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+
+//actions
+import { register } from "../redux/actions/authActions";
 
 const AddUser = () => {
+  const dispatch = useDispatch();
+
+  const auth = useSelector((state) => state.auth);
+
   const [userID, setUserID] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userType, setUserType] = useState("");
-  const [modalShow, setModalShow] = useState(false);
 
   const resetFields = () => {
     setUserID("");
@@ -20,28 +25,32 @@ const AddUser = () => {
     setUserType("");
   };
 
-  const addUser = async (e) => {
+  const handleAddUser = (e) => {
     e.preventDefault();
 
-    try {
-      const res = await axios.post("/api/auth/register", {
-        userID,
-        displayName,
-        email,
-        password,
-        userType,
-      });
-      console.log(res.data);
-      resetFields();
-    } catch (err) {
-      console.log(err.response.data);
-    }
-    // setModalShow(true);
+    dispatch(register({ userID, displayName, email, password, userType }));
+
+    resetFields();
+
+    console.log(auth);
+
+    // try {
+    //   const res = await axios.post("/api/auth/register", {
+    //     userID,
+    //     displayName,
+    //     email,
+    //     password,
+    //     userType,
+    //   });
+    //   console.log(res.data);
+    // } catch (err) {
+    //   console.log(err.response.data);
+    // }
   };
 
   return (
     <>
-      <Form onSubmit={addUser}>
+      <Form onSubmit={handleAddUser}>
         <Form.Group as={Row} className="mb-5">
           <Form.Label column xs={4}>
             User ID
@@ -122,7 +131,6 @@ const AddUser = () => {
           </Col>
         </Form.Group>
       </Form>
-      <ConfirmationModal show={modalShow} onHide={() => setModalShow(false)} />
     </>
   );
 };

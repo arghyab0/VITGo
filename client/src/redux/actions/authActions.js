@@ -39,13 +39,13 @@ export const login = (userCredentials) => {
       toast.success("Logged in successfully.", {
         position: toast.POSITION.TOP_CENTER,
         transition: Slide,
-        autoClose: 2500,
+        autoClose: 1500,
       });
     } catch (err) {
       toast.error(err.response?.data, {
         position: toast.POSITION.TOP_CENTER,
         transition: Slide,
-        autoClose: 2500,
+        autoClose: 1500,
       });
     }
   };
@@ -57,5 +57,19 @@ export const loadUser = () => {
     if (jwttoken) {
       dispatch({ type: "USER_LOADED", jwttoken });
     } else return null;
+  };
+};
+
+export const logout = () => {
+  return async (dispatch) => {
+    dispatch({
+      type: "LOGOUT_USER",
+    });
+
+    toast.success("Logged out successfully.", {
+      position: toast.POSITION.TOP_CENTER,
+      transition: Slide,
+      autoClose: 1500,
+    });
   };
 };

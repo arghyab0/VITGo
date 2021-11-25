@@ -16,7 +16,6 @@ const authReducer = (state = initialState, action) => {
     case "LOGIN_USER":
     case "USER_LOADED":
       const user = jwtDecode(action.jwttoken);
-      console.log(user);
       return {
         ...initialState,
         jwttoken: action.jwttoken,
@@ -26,6 +25,18 @@ const authReducer = (state = initialState, action) => {
         email: user.email,
         userType: user.userType,
         userStatus: user.userStatus,
+      };
+
+    case "LOGOUT_USER":
+      localStorage.removeItem("jwttoken");
+      return {
+        _id: null,
+        userID: null,
+        displayName: null,
+        email: null,
+        userType: null,
+        userStatus: null,
+        jwttoken: null,
       };
 
     case "ADD_USER":

@@ -8,8 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/actions/authActions";
 
 const LoginForm = () => {
-  const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
   const [userID, setUserID] = useState("");
   const [password, setPassword] = useState("");
@@ -19,7 +19,7 @@ const LoginForm = () => {
     dispatch(login({ userID, password }));
   };
 
-  if (auth._id) return <Redirect to="/" />; //if user already exists, redirect to home
+  if (auth?._id) return <Redirect to="/" />; //if user already exists, redirect to
 
   return (
     <>

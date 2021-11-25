@@ -8,8 +8,6 @@ import Admin from "./pages/Admin";
 import Requests from "./pages/Requests";
 import Header from "./components/Header";
 import StudentList from "./components/StudentList";
-import Manager from "./pages/Manager";
-import Security from "./pages/Security";
 
 //actions
 import { loadUser } from "./redux/actions/authActions";
@@ -37,16 +35,6 @@ function App() {
           <Route exact path="/">
             <Header />
             <Home />
-          </Route>
-
-          <Route exact path="/man">
-            <Header />
-            <Manager />
-          </Route>
-
-          <Route exact path="/sec">
-            <Header />
-            <Security />
           </Route>
 
           <Route path="/admin">

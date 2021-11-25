@@ -31,13 +31,13 @@ const Header = () => {
             </Link>
           </Navbar.Brand>
           <Nav className="justify-content-end align-items-center">
-            {auth.userType === "Student" && (
+            {auth.userType === "STUDENT" && (
               <Nav.Link>
                 <Link to="/requests">Requests</Link>
               </Nav.Link>
             )}
 
-            {auth.userType !== "Student" && (
+            {auth.userType !== "STUDENT" && (
               <Nav.Link>
                 <Link to="/students">Students</Link>
               </Nav.Link>
@@ -45,7 +45,7 @@ const Header = () => {
 
             {auth._id && (
               <Nav.Link>
-                <div onClick={() => handleLogout()}>Logout</div>
+                <span onClick={() => handleLogout()}>Logout</span>
               </Nav.Link>
             )}
 

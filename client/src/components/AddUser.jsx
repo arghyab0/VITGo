@@ -29,19 +29,6 @@ const AddUser = () => {
     dispatch(register({ userID, displayName, email, password, userType }));
 
     resetFields();
-
-    // try {
-    //   const res = await axios.post("/api/auth/register", {
-    //     userID,
-    //     displayName,
-    //     email,
-    //     password,
-    //     userType,
-    //   });
-    //   console.log(res.data);
-    // } catch (err) {
-    //   console.log(err.response.data);
-    // }
   };
 
   return (
@@ -114,9 +101,9 @@ const AddUser = () => {
               onChange={(e) => setUserType(e.target.value)}
             >
               <option>Choose</option>
-              <option>Student</option>
-              <option>Hostel manager</option>
-              <option>Security personnel</option>
+              <option value="STUDENT">Student</option>
+              <option value="MANAGER">Hostel manager</option>
+              <option value="SECURITY">Security personnel</option>
             </Form.Select>
           </Col>
         </Form.Group>

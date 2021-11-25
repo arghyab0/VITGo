@@ -5,6 +5,9 @@ const router = require("express").Router();
 const User = require("../models/User");
 const Request = require("../models/Request");
 
+//middleware
+const authMiddleware = require("../middleware/authMiddleware");
+
 //create a new request
 router.post("/", async (req, res) => {
   const randToken = Math.floor(1000 + Math.random() * 9000);

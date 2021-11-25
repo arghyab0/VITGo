@@ -1,28 +1,25 @@
 //components
 import { useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
-import axios from "axios";
+import { Redirect } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+//actions
+import { login } from "../redux/actions/authActions";
 
 const LoginForm = () => {
+  const auth = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
   const [userID, setUserID] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = async (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
-
-    try {
-      const res = await axios.post("/api/auth/login", {
-        userID,
-        password,
-      });
-      console.log(res.data);
-      localStorage.setItem("jwttoken", res.data.jwttoken);
-      window.location.href = "/";
-    } catch (err) {
-      console.log(err.response.data);
-    }
-    // setModalShow(true);
+    dispatch(login({ userID, password }));
   };
+
+  if (auth?._id) return <Redirect to="/" />; //if user already exists, redirect to
 
   return (
     <>

@@ -1,18 +1,32 @@
 //components
+import { useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Admin from "./pages/Admin";
 import Requests from "./pages/Requests";
 import Header from "./components/Header";
 import StudentList from "./components/StudentList";
-import Manager from "./pages/Manager";
-import Security from "./pages/Security";
+
+//actions
+import { loadUser } from "./redux/actions/authActions";
+
+//toastify styles
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(loadUser());
+  }, [dispatch]);
+
   return (
     <div className="App">
       <Router>
+        <ToastContainer />
         <Switch>
           <Route path="/login">
             <Login />
@@ -21,16 +35,6 @@ function App() {
           <Route exact path="/">
             <Header />
             <Home />
-          </Route>
-
-          <Route exact path="/man">
-            <Header />
-            <Manager />
-          </Route>
-
-          <Route exact path="/sec">
-            <Header />
-            <Security />
           </Route>
 
           <Route path="/admin">

@@ -12,10 +12,10 @@ export const addRequest = (requestData) => {
 
       dispatch({
         type: "ADD_REQUEST",
-        request: res.data.request,
+        request: res.data,
       });
 
-      toast.success(res.data.message, {
+      toast.success("New outing request added successfully.", {
         position: toast.POSITION.TOP_CENTER,
         transition: Slide,
         autoClose: 2500,

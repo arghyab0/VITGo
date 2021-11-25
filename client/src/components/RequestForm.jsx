@@ -1,13 +1,19 @@
 //components
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+
+//actions
+import { addRequest } from "../redux/actions/requestsActions";
 
 const RequestForm = () => {
   const [contactNo, setContactNo] = useState("");
   const [parentsContactNo, setParentsContactNo] = useState("");
   const [hours, setHours] = useState("");
   const [purpose, setPurpose] = useState("");
+
+  const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth);
 
   const resetFields = () => {
     setContactNo("");
@@ -16,25 +22,28 @@ const RequestForm = () => {
     setPurpose("");
   };
 
-  const addRequest = async (e) => {
+  const handleAddRequest = async (e) => {
     e.preventDefault();
 
-    try {
-      const res = await axios.post("/api/request/", {
-        // issuedBy: (pass user id from store here)
-        issuedBy: "6193b68bb2b336e4d2335211",
-        contactNo,
-      });
-      console.log(res.data);
-      resetFields();
-    } catch (err) {
-      console.log(err.response.data);
-    }
+    dispatch(addRequest({ contactNo }));
+
+    resetFields();
+    // try {
+    //   const res = await axios.post("/api/request/", {
+    //     // issuedBy: (pass user id from store here)
+    //     issuedBy: "6193b68bb2b336e4d2335211",
+    //     contactNo,
+    //   });
+
+    //   resetFields();
+    // } catch (err) {
+    //   console.log(err.response.data);
+    // }
   };
 
   return (
     <>
-      <Form onSubmit={addRequest}>
+      <Form onSubmit={handleAddRequest}>
         <Form.Group as={Row} className="mb-3">
           <Form.Label column xs={3}>
             Contact no.

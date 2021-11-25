@@ -21,9 +21,11 @@ router.post("/", async (req, res) => {
     });
 
     const request = await newRequest.save();
-    res.status(200).json(request);
+    res
+      .status(200)
+      .json({ request, message: "New outing request added successfully." });
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json(`Error: ${err.message}!`);
   }
 });
 

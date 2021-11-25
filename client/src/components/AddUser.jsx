@@ -1,15 +1,13 @@
 //components
 import { useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 //actions
 import { register } from "../redux/actions/authActions";
 
 const AddUser = () => {
   const dispatch = useDispatch();
-
-  const auth = useSelector((state) => state.auth);
 
   const [userID, setUserID] = useState("");
   const [displayName, setDisplayName] = useState("");
@@ -31,8 +29,6 @@ const AddUser = () => {
     dispatch(register({ userID, displayName, email, password, userType }));
 
     resetFields();
-
-    console.log(auth);
 
     // try {
     //   const res = await axios.post("/api/auth/register", {

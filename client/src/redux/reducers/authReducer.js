@@ -1,5 +1,5 @@
 //components
-// import jwtDecode from "jwt-decode";
+import jwtDecode from "jwt-decode";
 
 const initialState = {
   _id: null,
@@ -13,31 +13,20 @@ const initialState = {
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
-    // case "SIGN_IN":
-    // case "USER_LOADED":
-    //   toast("Welcome...", {
-    //     position: toast.POSITION.BOTTOM_RIGHT,
-    //   });
-    //   const user = jwtDecode(action.token);
-    //   return {
-    //     ...initialState,
-    //     token: action.token,
-    //     name: user.name,
-    //     email: user.email,
-    //     _id: user._id,
-    //   };
-
-    // case "SIGN_OUT":
-    //   localStorage.removeItem("token");
-    //   toast("Goodbye...", {
-    //     position: toast.POSITION.BOTTOM_RIGHT,
-    //   });
-    //   return {
-    //     token: null,
-    //     name: null,
-    //     email: null,
-    //     _id: null,
-    //   };
+    case "LOGIN_USER":
+    case "USER_LOADED":
+      const user = jwtDecode(action.jwttoken);
+      console.log(user);
+      return {
+        ...initialState,
+        jwttoken: action.jwttoken,
+        _id: user._id,
+        userID: user.userID,
+        displayName: user.displayName,
+        email: user.email,
+        userType: user.userType,
+        userStatus: user.userStatus,
+      };
 
     case "ADD_USER":
       return state;

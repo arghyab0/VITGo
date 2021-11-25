@@ -1,5 +1,5 @@
 //components
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -28,17 +28,6 @@ const RequestForm = () => {
     dispatch(addRequest({ contactNo }));
 
     resetFields();
-    // try {
-    //   const res = await axios.post("/api/request/", {
-    //     // issuedBy: (pass user id from store here)
-    //     issuedBy: "6193b68bb2b336e4d2335211",
-    //     contactNo,
-    //   });
-
-    //   resetFields();
-    // } catch (err) {
-    //   console.log(err.response.data);
-    // }
   };
 
   return (

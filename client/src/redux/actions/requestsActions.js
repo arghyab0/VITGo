@@ -29,3 +29,29 @@ export const addRequest = (requestData) => {
     }
   };
 };
+
+export const fetchRequests = () => {
+  return async (dispatch, getState) => {
+    try {
+      const uid = getState().auth._id.toString();
+      const utype = getState().auth.userType;
+      let res;
+      if (utype === "STUDENT") {
+        res = await axios.get(`/api/request?uid=${uid}`);
+      } else {
+        res = await axios.get(`/api/request`);
+      }
+
+      dispatch({
+        type: "FETCH_REQUESTS",
+        request: res.data,
+      });
+    } catch (err) {
+      toast.error(err.response?.data, {
+        position: toast.POSITION.TOP_CENTER,
+        transition: Slide,
+        autoClose: 2500,
+      });
+    }
+  };
+};

@@ -31,12 +31,16 @@ router.post("/", async (req, res) => {
 router.get("/", async (req, res) => {
   const uid = req.query.uid;
   try {
-    let requests;
+    let requests = [];
     if (uid) {
       requests = await Request.find({ issuedBy: uid }); //same as -> requests = await Request.find({username: username})
     } else {
       requests = await Request.find();
     }
+
+    requests.sort((a, b) =>
+      a.createdAt > b.createdAt ? -1 : b.createdAt > a.createdAt ? 1 : 0
+    );
 
     res.status(200).json(requests);
   } catch (err) {

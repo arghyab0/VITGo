@@ -87,3 +87,35 @@ export const approveRejectRequests = (updatedStatus, reqID) => {
     }
   };
 };
+
+export const checkinCheckoutRequests = (updatedStatus) => {
+  return async (dispatch, getState) => {
+    try {
+      const utype = getState().auth.userType;
+      const res = await axios.put("/api/request/security/", {
+        ...updatedStatus,
+        userType: utype,
+      });
+
+      dispatch({
+        type: "CHECKIN_CHECKOUT_REQUESTS",
+        request: res.data,
+      });
+
+      const msg =
+        res.data.requestStatus === "ONGOING" ? "checked-out" : "checked-in";
+
+      toast.success(`Student ${msg} successfully.`, {
+        position: toast.POSITION.TOP_CENTER,
+        transition: Slide,
+        autoClose: 2500,
+      });
+    } catch (err) {
+      toast.error(err.response?.data, {
+        position: toast.POSITION.TOP_CENTER,
+        transition: Slide,
+        autoClose: 2500,
+      });
+    }
+  };
+};

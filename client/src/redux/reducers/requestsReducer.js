@@ -11,6 +11,11 @@ const requestsReducer = (state = [], action) => {
         item._id === action.request._id ? action.request : item
       );
 
+    case "CHECKIN_CHECKOUT_REQUESTS":
+      return state.map((item) =>
+        item._id === action.request._id ? action.request : item
+      );
+
     default:
       return state;
   }

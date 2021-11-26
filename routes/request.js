@@ -105,7 +105,7 @@ router.put("/security", async (req, res) => {
       const issuer = await User.findOne({ userID: req.body.userID }); //find doc id of student
 
       try {
-        let newStatus;
+        let updatedStatus = { req: null, user: null, flag: false };
 
         //get the request that matches doc id & token
         const request = await Request.findOne({
@@ -114,33 +114,63 @@ router.put("/security", async (req, res) => {
         });
 
         //checks depending on the outing status
-        if (request.requestStatus === "APPROVED") newStatus = "ONGOING";
-        if (request.requestStatus === "ONGOING") newStatus = "COMPLETED";
+        if (request.requestStatus === "RAISED")
+          res
+            .status(500)
+            .json(
+              "Error: Outing request is not approved by the hostel manager yet."
+            );
         if (request.requestStatus === "REJECTED")
-          res.status(500).json("Outing request has been rejected.");
+          res.status(500).json("Error: Outing request has been rejected.");
         if (request.requestStatus === "COMPLETED")
-          res.status(500).json("Outing request is already completed.");
+          res.status(500).json("Error: Outing request is already completed.");
 
-        try {
-          const updatedRequest = await Request.findByIdAndUpdate(
-            request._id,
-            {
-              requestStatus: newStatus,
-            },
-            { new: true }
-          );
-          res.status(200).json(updatedRequest);
-        } catch (err) {
-          res.status(500).json(err);
+        if (request.requestStatus === "APPROVED") {
+          updatedStatus.flag = true;
+          updatedStatus.req = "ONGOING";
+          updatedStatus.user = "OUT";
+        }
+        if (request.requestStatus === "ONGOING") {
+          updatedStatus.flag = true;
+          updatedStatus.req = "COMPLETED";
+          updatedStatus.user = "IN";
+        }
+
+        if (updatedStatus.flag) {
+          try {
+            //change request status
+            const updatedRequest = await Request.findByIdAndUpdate(
+              request._id,
+              {
+                requestStatus: updatedStatus?.req,
+              },
+              { new: true }
+            );
+
+            //change student status
+            const updatedUser = await User.findByIdAndUpdate(
+              issuer._id,
+              {
+                userStatus: updatedStatus?.user,
+              },
+              { new: true }
+            );
+
+            res.status(200).json(updatedRequest);
+          } catch (err) {
+            res.status(500).json(`Error: ${err.message}!`);
+          }
         }
       } catch (err) {
-        res.status(500).json("User-token combo is incorrect.");
+        res.status(500).json("Error: Reg. number - token combo is incorrect.");
       }
     } catch (err) {
-      res.status(500).json("User is not regsitered.");
+      res.status(500).json("Error: Student is not registered.");
     }
   } else {
-    res.status(500).json("You are not authorized to perform this action.");
+    res
+      .status(500)
+      .json("Error: You are not authorized to perform this action.");
   }
 });
 

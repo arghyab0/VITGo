@@ -32,7 +32,7 @@ const StudentList = () => {
     const fetchStudents = async () => {
       const res = await axios.get("/api/user/");
       const studentList = res.data.filter(
-        (item) => item.userType === "Student"
+        (item) => item.userType === "STUDENT"
       );
       setStudents(studentList);
     };

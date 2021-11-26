@@ -1,13 +1,16 @@
 //components
 import { useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
-import ConfirmationModal from "./ConfirmationModal";
-import axios from "axios";
+import { useDispatch } from "react-redux";
+
+//actions
+import { checkinCheckoutRequests } from "../redux/actions/requestsActions.js";
 
 const SecurityCheckinForm = () => {
   const [userID, setUserID] = useState("");
   const [token, setToken] = useState("");
-  const [modalShow, setModalShow] = useState(false);
+
+  const dispatch = useDispatch();
 
   const resetFields = () => {
     setUserID("");
@@ -17,18 +20,20 @@ const SecurityCheckinForm = () => {
   const checkUser = async (e) => {
     e.preventDefault();
 
-    try {
-      const res = await axios.put("/api/request/security/", {
-        userType: "Security", //get from store
-        userID,
-        token: token,
-      });
-      console.log(res.data);
-      resetFields();
-    } catch (err) {
-      console.log(err.response.data);
-    }
-    // setModalShow(true);
+    // try {
+    //   const res = await axios.put("/api/request/security/", {
+    //     userType: "Security", //get from store
+    //     userID,
+    //     token: token,
+    //   });
+    //   console.log(res.data);
+    // } catch (err) {
+    //   console.log(err.response.data);
+    // }
+
+    dispatch(checkinCheckoutRequests({ userID, token }));
+
+    resetFields();
   };
 
   return (
@@ -68,7 +73,6 @@ const SecurityCheckinForm = () => {
           </Col>
         </Form.Group>
       </Form>
-      <ConfirmationModal show={modalShow} onHide={() => setModalShow(false)} />
     </>
   );
 };

@@ -30,7 +30,7 @@ router.get("/:id", async (req, res) => {
 //blacklist students (manager)
 router.put("/blacklist/:id", async (req, res) => {
   //if user is a hostel manager
-  if (req.body.userType === "Manager") {
+  if (req.body.userType === "MANAGER") {
     try {
       const updatedUser = await User.findByIdAndUpdate(
         req.params.id,
@@ -51,7 +51,7 @@ router.put("/blacklist/:id", async (req, res) => {
 //unblacklist students (manager)
 router.put("/unblacklist/:id", async (req, res) => {
   //if user is a hostel manager
-  if (req.body.userType === "Manager") {
+  if (req.body.userType === "MANAGER") {
     try {
       const updatedUser = await User.findByIdAndUpdate(
         req.params.id,

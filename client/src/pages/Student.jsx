@@ -32,7 +32,7 @@ const Student = () => {
             </Row>
 
             <Row className="mt-5">
-              <h4>Current status: token generated - {requests[0].token}</h4>
+              {/* <h4>Current status: token generated - {requests[0].token}</h4> */}
             </Row>
 
             <Row className="mt-5">

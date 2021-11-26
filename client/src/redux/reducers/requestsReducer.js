@@ -4,8 +4,12 @@ const requestsReducer = (state = [], action) => {
       return [action.request, ...state];
 
     case "FETCH_REQUESTS":
-      console.log(action.request);
       return action.request;
+
+    case "APPROVE_REJECT_REQUESTS":
+      return state.map((item) =>
+        item._id === action.request._id ? action.request : item
+      );
 
     default:
       return state;

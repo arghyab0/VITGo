@@ -55,3 +55,35 @@ export const fetchRequests = () => {
     }
   };
 };
+
+export const approveRejectRequests = (updatedStatus, reqID) => {
+  return async (dispatch, getState) => {
+    try {
+      const utype = getState().auth.userType;
+      const res = await axios.put(`/api/request/manager/${reqID}`, {
+        userType: utype,
+        requestStatus: updatedStatus,
+      });
+
+      dispatch({
+        type: "APPROVE_REJECT_REQUESTS",
+        request: res.data,
+      });
+
+      toast.success(
+        `Outing request ${updatedStatus.toLowerCase()} successfully.`,
+        {
+          position: toast.POSITION.TOP_CENTER,
+          transition: Slide,
+          autoClose: 2500,
+        }
+      );
+    } catch (err) {
+      toast.error(err.response?.data, {
+        position: toast.POSITION.TOP_CENTER,
+        transition: Slide,
+        autoClose: 2500,
+      });
+    }
+  };
+};

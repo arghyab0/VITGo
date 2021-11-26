@@ -44,7 +44,7 @@ router.get("/", async (req, res) => {
 
     res.status(200).json(requests);
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json(`Error: ${err.message}!`);
   }
 });
 
@@ -54,14 +54,14 @@ router.get("/:id", async (req, res) => {
     const request = await Request.findById(req.params.id);
     res.status(200).json(request);
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json(`Error: ${err.message}!`);
   }
 });
 
 //accept/reject request (manager)
 router.put("/manager/:id", async (req, res) => {
   //if user is a hostel manager
-  if (req.body.userType === "Manager") {
+  if (req.body.userType === "MANAGER") {
     try {
       const request = await Request.findById(req.params.id);
       const issuer = await User.findById(request.issuedBy);
@@ -78,27 +78,29 @@ router.put("/manager/:id", async (req, res) => {
 
           res.status(200).json(updatedRequest);
         } catch (err) {
-          res.status(500).json(err);
+          res.status(500).json(`Error: ${err.message}!`);
         }
       } else {
         res
           .status(500)
           .json(
-            "Student is blacklisted. Un-blacklist before accepting outing request."
+            "Error: Student is blacklisted. Un-blacklist before accepting outing request."
           );
       }
     } catch (err) {
-      res.status(500).json(err);
+      res.status(500).json(`Error: ${err.message}!`);
     }
   } else {
-    res.status(500).json("You are not authorized to perform this action.");
+    res
+      .status(500)
+      .json("Error: You are not authorized to perform this action!");
   }
 });
 
 //checkin/checkout request (security)
 router.put("/security", async (req, res) => {
   //if user is a security personnel
-  if (req.body.userType === "Security") {
+  if (req.body.userType === "SECURITY") {
     try {
       const issuer = await User.findOne({ userID: req.body.userID }); //find doc id of student
 

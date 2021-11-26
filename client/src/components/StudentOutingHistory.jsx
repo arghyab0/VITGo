@@ -12,9 +12,9 @@ const StudentOutingHistory = () => {
   const dispatch = useDispatch();
   const requests = useSelector((state) => state.requests);
 
-  useEffect(() => {
-    dispatch(fetchRequests());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchRequests());
+  // }, [dispatch]);
 
   // useEffect(() => {
   //   const fetchRequests = async () => {

@@ -1,10 +1,23 @@
 //components
+import { useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import StudentsOutCard from "../components/StudentsOutCard";
 import BlacklistedCard from "../components/BlacklistedCard";
 import ManagerOutingList from "../components/ManagerOutingList";
 
+//actions
+import { fetchRequests } from "../redux/actions/requestsActions";
+
 const Manager = () => {
+  const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth);
+  const requests = useSelector((state) => state.requests);
+
+  useEffect(() => {
+    dispatch(fetchRequests());
+  }, [dispatch]);
+
   return (
     <>
       <Container>
@@ -12,7 +25,7 @@ const Manager = () => {
           <Col md={1}></Col>
           <Col md={10}>
             <Row className="mt-5">
-              <h1>Hi, managerName</h1>
+              <h1>Hi, {auth.displayName}</h1>
             </Row>
 
             <Row className="mt-5">
@@ -27,7 +40,7 @@ const Manager = () => {
 
             <Row className="mt-5">
               <h3 className="mb-4">Outing requests</h3>
-              <ManagerOutingList />
+              <ManagerOutingList reqData={requests} />
             </Row>
           </Col>
           <Col md={1}></Col>

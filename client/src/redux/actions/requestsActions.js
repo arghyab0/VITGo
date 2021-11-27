@@ -5,9 +5,12 @@ export const addRequest = (requestData) => {
   return async (dispatch, getState) => {
     try {
       const uid = getState().auth._id.toString();
+      const regNo = getState().auth.userID;
+
       const res = await axios.post("/api/request/", {
         ...requestData,
         issuedBy: uid,
+        issuedByRegNo: regNo,
       });
 
       dispatch({

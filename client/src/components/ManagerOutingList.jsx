@@ -34,7 +34,7 @@ const ManagerOutingList = ({ reqData }) => {
       <tbody>
         {reqData.map((item) => (
           <tr key={item._id}>
-            <td>{item.issuedBy}</td>
+            <td>{item.issuedByRegNo}</td>
             <td>{item.contactNo}</td>
             <td>
               {`${new Date(item.createdAt).toDateString()} ${new Date(

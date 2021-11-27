@@ -15,6 +15,7 @@ router.post("/", async (req, res) => {
   try {
     const newRequest = new Request({
       issuedBy: req.body.issuedBy,
+      issuedByRegNo: req.body.issuedByRegNo,
       contactNo: req.body.contactNo,
       requestStatus: "RAISED",
       token: randToken,

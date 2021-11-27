@@ -1,7 +1,7 @@
 //components
 import { useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 //actions
 import { addRequest } from "../redux/actions/requestsActions";
@@ -13,7 +13,6 @@ const RequestForm = () => {
   const [purpose, setPurpose] = useState("");
 
   const dispatch = useDispatch();
-  const auth = useSelector((state) => state.auth);
 
   const resetFields = () => {
     setContactNo("");

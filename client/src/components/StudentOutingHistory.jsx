@@ -1,15 +1,15 @@
 //components
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+// import { useEffect } from "react";
+// import { useLocation } from "react-router-dom";
 import { Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 
 //actions
-import { fetchRequests } from "../redux/actions/requestsActions";
+// import { fetchRequests } from "../redux/actions/requestsActions";
 
 const StudentOutingHistory = () => {
   // const { search } = useLocation();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const requests = useSelector((state) => state.requests);
 
   // useEffect(() => {

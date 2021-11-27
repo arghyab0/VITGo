@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const authMiddleware = (req, res, next) => {
   const jwttoken = req.header("x-auth-token");
 
-  !jwttoken && res.status(400).json("Error: User is not authorized!");
+  !jwttoken && res.status(500).json("Error: You are not authorized!");
 
   try {
     const decoded = jwt.verify(jwttoken, process.env.JWT_KEY);

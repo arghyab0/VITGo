@@ -9,7 +9,7 @@ const Request = require("../models/Request");
 const authMiddleware = require("../middleware/authMiddleware");
 
 //create a new request
-router.post("/", async (req, res) => {
+router.post("/", authMiddleware, async (req, res) => {
   const randToken = Math.floor(1000 + Math.random() * 9000);
 
   try {
@@ -29,7 +29,7 @@ router.post("/", async (req, res) => {
 });
 
 //get all requests
-router.get("/", async (req, res) => {
+router.get("/", authMiddleware, async (req, res) => {
   const uid = req.query.uid;
   try {
     let requests = [];
@@ -50,7 +50,7 @@ router.get("/", async (req, res) => {
 });
 
 //get one request
-router.get("/:id", async (req, res) => {
+router.get("/:id", authMiddleware, async (req, res) => {
   try {
     const request = await Request.findById(req.params.id);
     res.status(200).json(request);
@@ -60,7 +60,7 @@ router.get("/:id", async (req, res) => {
 });
 
 //accept/reject request (manager)
-router.put("/manager/:id", async (req, res) => {
+router.put("/manager/:id", authMiddleware, async (req, res) => {
   //if user is a hostel manager
   if (req.body.userType === "MANAGER") {
     try {
@@ -99,7 +99,7 @@ router.put("/manager/:id", async (req, res) => {
 });
 
 //checkin/checkout request (security)
-router.put("/security", async (req, res) => {
+router.put("/security", authMiddleware, async (req, res) => {
   //if user is a security personnel
   if (req.body.userType === "SECURITY") {
     try {

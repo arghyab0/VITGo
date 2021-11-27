@@ -1,17 +1,24 @@
 import axios from "axios";
 import { toast, Slide } from "react-toastify";
 
+//helper function to set jwt token headers
+import { setHeaders } from "../helpers";
+
 export const addRequest = (requestData) => {
   return async (dispatch, getState) => {
     try {
       const uid = getState().auth._id.toString();
       const regNo = getState().auth.userID;
 
-      const res = await axios.post("/api/request/", {
-        ...requestData,
-        issuedBy: uid,
-        issuedByRegNo: regNo,
-      });
+      const res = await axios.post(
+        "/api/request/",
+        {
+          ...requestData,
+          issuedBy: uid,
+          issuedByRegNo: regNo,
+        },
+        setHeaders()
+      );
 
       dispatch({
         type: "ADD_REQUEST",
@@ -40,9 +47,9 @@ export const fetchRequests = () => {
       const utype = getState().auth.userType;
       let res;
       if (utype === "STUDENT") {
-        res = await axios.get(`/api/request?uid=${uid}`);
+        res = await axios.get(`/api/request?uid=${uid}`, setHeaders());
       } else {
-        res = await axios.get(`/api/request`);
+        res = await axios.get(`/api/request`, setHeaders());
       }
 
       dispatch({
@@ -63,10 +70,14 @@ export const approveRejectRequests = (updatedStatus, reqID) => {
   return async (dispatch, getState) => {
     try {
       const utype = getState().auth.userType;
-      const res = await axios.put(`/api/request/manager/${reqID}`, {
-        userType: utype,
-        requestStatus: updatedStatus,
-      });
+      const res = await axios.put(
+        `/api/request/manager/${reqID}`,
+        {
+          userType: utype,
+          requestStatus: updatedStatus,
+        },
+        setHeaders()
+      );
 
       dispatch({
         type: "APPROVE_REJECT_REQUESTS",
@@ -95,10 +106,14 @@ export const checkinCheckoutRequests = (updatedStatus) => {
   return async (dispatch, getState) => {
     try {
       const utype = getState().auth.userType;
-      const res = await axios.put("/api/request/security/", {
-        ...updatedStatus,
-        userType: utype,
-      });
+      const res = await axios.put(
+        "/api/request/security/",
+        {
+          ...updatedStatus,
+          userType: utype,
+        },
+        setHeaders()
+      );
 
       dispatch({
         type: "CHECKIN_CHECKOUT_REQUESTS",

@@ -1,47 +1,20 @@
 //components
-import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { Table, Button } from "react-bootstrap";
-import axios from "axios";
 
-const ManagerOutingList = () => {
-  const [requests, setRequests] = useState([]);
-  const { search } = useLocation();
+//actions
+import { approveRejectRequests } from "../redux/actions/requestsActions";
+
+const ManagerOutingList = ({ reqData }) => {
+  const dispatch = useDispatch();
 
   const handleAccept = async (reqID) => {
-    try {
-      const res = await axios.put("/api/request/manager/" + reqID, {
-        userType: "Manager", //get from store
-        requestStatus: "APPROVED",
-      });
-      console.log(res.data);
-    } catch (err) {
-      console.log(err.response.data);
-    }
+    dispatch(approveRejectRequests("APPROVED", reqID));
   };
 
   const handleReject = async (reqID) => {
-    try {
-      const res = await axios.put("/api/request/" + reqID, {
-        userType: "Manager", //get from store
-        requestStatus: "REJECTED",
-      });
-      console.log(res.data);
-    } catch (err) {
-      console.log(err.response.data);
-    }
+    dispatch(approveRejectRequests("REJECTED", reqID));
   };
-
-  useEffect(() => {
-    const fetchRequests = async () => {
-      const res = await axios.get("/api/request/" + search);
-      res.data.sort((a, b) =>
-        a.createdAt > b.createdAt ? -1 : b.createdAt > a.createdAt ? 1 : 0
-      );
-      setRequests(res.data);
-    };
-    fetchRequests();
-  }, [search]);
 
   return (
     <Table responsive>
@@ -59,9 +32,9 @@ const ManagerOutingList = () => {
         </tr>
       </thead>
       <tbody>
-        {requests.map((item) => (
+        {reqData.map((item) => (
           <tr key={item._id}>
-            <td>{item.issuedBy}</td>
+            <td>{item.issuedByRegNo}</td>
             <td>{item.contactNo}</td>
             <td>
               {`${new Date(item.createdAt).toDateString()} ${new Date(

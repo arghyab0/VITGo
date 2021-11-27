@@ -9,12 +9,13 @@ const Request = require("../models/Request");
 const authMiddleware = require("../middleware/authMiddleware");
 
 //create a new request
-router.post("/", async (req, res) => {
+router.post("/", authMiddleware, async (req, res) => {
   const randToken = Math.floor(1000 + Math.random() * 9000);
 
   try {
     const newRequest = new Request({
       issuedBy: req.body.issuedBy,
+      issuedByRegNo: req.body.issuedByRegNo,
       contactNo: req.body.contactNo,
       requestStatus: "RAISED",
       token: randToken,
@@ -23,41 +24,45 @@ router.post("/", async (req, res) => {
     const request = await newRequest.save();
     res.status(200).json(request);
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json(`Error: ${err.message}!`);
   }
 });
 
 //get all requests
-router.get("/", async (req, res) => {
+router.get("/", authMiddleware, async (req, res) => {
   const uid = req.query.uid;
   try {
-    let requests;
+    let requests = [];
     if (uid) {
       requests = await Request.find({ issuedBy: uid }); //same as -> requests = await Request.find({username: username})
     } else {
       requests = await Request.find();
     }
 
+    requests.sort((a, b) =>
+      a.createdAt > b.createdAt ? -1 : b.createdAt > a.createdAt ? 1 : 0
+    );
+
     res.status(200).json(requests);
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json(`Error: ${err.message}!`);
   }
 });
 
 //get one request
-router.get("/:id", async (req, res) => {
+router.get("/:id", authMiddleware, async (req, res) => {
   try {
     const request = await Request.findById(req.params.id);
     res.status(200).json(request);
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json(`Error: ${err.message}!`);
   }
 });
 
 //accept/reject request (manager)
-router.put("/manager/:id", async (req, res) => {
+router.put("/manager/:id", authMiddleware, async (req, res) => {
   //if user is a hostel manager
-  if (req.body.userType === "Manager") {
+  if (req.body.userType === "MANAGER") {
     try {
       const request = await Request.findById(req.params.id);
       const issuer = await User.findById(request.issuedBy);
@@ -74,32 +79,34 @@ router.put("/manager/:id", async (req, res) => {
 
           res.status(200).json(updatedRequest);
         } catch (err) {
-          res.status(500).json(err);
+          res.status(500).json(`Error: ${err.message}!`);
         }
       } else {
         res
           .status(500)
           .json(
-            "Student is blacklisted. Un-blacklist before accepting outing request."
+            "Error: Student is blacklisted. Un-blacklist before accepting outing request."
           );
       }
     } catch (err) {
-      res.status(500).json(err);
+      res.status(500).json(`Error: ${err.message}!`);
     }
   } else {
-    res.status(500).json("You are not authorized to perform this action.");
+    res
+      .status(500)
+      .json("Error: You are not authorized to perform this action!");
   }
 });
 
 //checkin/checkout request (security)
-router.put("/security", async (req, res) => {
+router.put("/security", authMiddleware, async (req, res) => {
   //if user is a security personnel
-  if (req.body.userType === "Security") {
+  if (req.body.userType === "SECURITY") {
     try {
       const issuer = await User.findOne({ userID: req.body.userID }); //find doc id of student
 
       try {
-        let newStatus;
+        let updatedStatus = { req: null, user: null, flag: false };
 
         //get the request that matches doc id & token
         const request = await Request.findOne({
@@ -108,33 +115,63 @@ router.put("/security", async (req, res) => {
         });
 
         //checks depending on the outing status
-        if (request.requestStatus === "APPROVED") newStatus = "ONGOING";
-        if (request.requestStatus === "ONGOING") newStatus = "COMPLETED";
+        if (request.requestStatus === "RAISED")
+          res
+            .status(500)
+            .json(
+              "Error: Outing request is not approved by the hostel manager yet."
+            );
         if (request.requestStatus === "REJECTED")
-          res.status(500).json("Outing request has been rejected.");
+          res.status(500).json("Error: Outing request has been rejected.");
         if (request.requestStatus === "COMPLETED")
-          res.status(500).json("Outing request is already completed.");
+          res.status(500).json("Error: Outing request is already completed.");
 
-        try {
-          const updatedRequest = await Request.findByIdAndUpdate(
-            request._id,
-            {
-              requestStatus: newStatus,
-            },
-            { new: true }
-          );
-          res.status(200).json(updatedRequest);
-        } catch (err) {
-          res.status(500).json(err);
+        if (request.requestStatus === "APPROVED") {
+          updatedStatus.flag = true;
+          updatedStatus.req = "ONGOING";
+          updatedStatus.user = "OUT";
+        }
+        if (request.requestStatus === "ONGOING") {
+          updatedStatus.flag = true;
+          updatedStatus.req = "COMPLETED";
+          updatedStatus.user = "IN";
+        }
+
+        if (updatedStatus.flag) {
+          try {
+            //change request status
+            const updatedRequest = await Request.findByIdAndUpdate(
+              request._id,
+              {
+                requestStatus: updatedStatus?.req,
+              },
+              { new: true }
+            );
+
+            //change student status
+            const updatedUser = await User.findByIdAndUpdate(
+              issuer._id,
+              {
+                userStatus: updatedStatus?.user,
+              },
+              { new: true }
+            );
+
+            res.status(200).json(updatedRequest);
+          } catch (err) {
+            res.status(500).json(`Error: ${err.message}!`);
+          }
         }
       } catch (err) {
-        res.status(500).json("User-token combo is incorrect.");
+        res.status(500).json("Error: Reg. number - token combo is incorrect.");
       }
     } catch (err) {
-      res.status(500).json("User is not regsitered.");
+      res.status(500).json("Error: Student is not registered.");
     }
   } else {
-    res.status(500).json("You are not authorized to perform this action.");
+    res
+      .status(500)
+      .json("Error: You are not authorized to perform this action.");
   }
 });
 

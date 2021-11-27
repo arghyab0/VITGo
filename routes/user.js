@@ -11,7 +11,7 @@ router.get("/", async (req, res) => {
 
     res.status(200).json(users);
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json(`Error: ${err.message}`);
   }
 });
 
@@ -23,14 +23,14 @@ router.get("/:id", async (req, res) => {
 
     res.status(200).json(rest);
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json(`Error: ${err.message}`);
   }
 });
 
 //blacklist students (manager)
 router.put("/blacklist/:id", async (req, res) => {
   //if user is a hostel manager
-  if (req.body.userType === "Manager") {
+  if (req.body.userType === "MANAGER") {
     try {
       const updatedUser = await User.findByIdAndUpdate(
         req.params.id,
@@ -41,17 +41,17 @@ router.put("/blacklist/:id", async (req, res) => {
       );
       res.status(200).json(updatedUser);
     } catch (err) {
-      res.status(500).json(err);
+      res.status(500).json(`Error: ${err.message}`);
     }
   } else {
-    res.status(500).json("You are authorized to perform this action.");
+    res.status(500).json("Error: You are authorized to perform this action.");
   }
 });
 
 //unblacklist students (manager)
 router.put("/unblacklist/:id", async (req, res) => {
   //if user is a hostel manager
-  if (req.body.userType === "Manager") {
+  if (req.body.userType === "MANAGER") {
     try {
       const updatedUser = await User.findByIdAndUpdate(
         req.params.id,
@@ -62,10 +62,10 @@ router.put("/unblacklist/:id", async (req, res) => {
       );
       res.status(200).json(updatedUser);
     } catch (err) {
-      res.status(500).json(err);
+      res.status(500).json(`Error: ${err.message}`);
     }
   } else {
-    res.status(500).json("You are authorized to perform this action.");
+    res.status(500).json("Error: You are authorized to perform this action.");
   }
 });
 

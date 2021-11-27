@@ -1,5 +1,5 @@
 //components
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import StudentsOutCard from "../components/StudentsOutCard";
@@ -8,15 +8,29 @@ import ManagerOutingList from "../components/ManagerOutingList";
 
 //actions
 import { fetchRequests } from "../redux/actions/requestsActions";
+import { fetchUsers } from "../redux/actions/usersActions";
 
 const Manager = () => {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
   const requests = useSelector((state) => state.requests);
+  const users = useSelector((state) => state.users);
+
+  const [studentsOut, setStudentsOut] = useState(0);
+  const [studentsBlacklisted, setStudentsBlacklisted] = useState(0);
 
   useEffect(() => {
     dispatch(fetchRequests());
-  }, [dispatch]);
+    dispatch(fetchUsers());
+
+    const outArray = users.filter((item) => item.userStatus === "OUT");
+    setStudentsOut(outArray.length);
+
+    const blacklistArray = users.filter(
+      (item) => item.userStatus === "BLACKLIST"
+    );
+    setStudentsBlacklisted(blacklistArray.length);
+  }, [dispatch, users]);
 
   return (
     <>
@@ -30,11 +44,11 @@ const Manager = () => {
 
             <Row className="mt-5">
               <Col md={6} className="mb-3">
-                <StudentsOutCard />
+                <StudentsOutCard number={studentsOut} />
               </Col>
 
               <Col md={6} className="mb-3">
-                <BlacklistedCard />
+                <BlacklistedCard number={studentsBlacklisted} />
               </Col>
             </Row>
 

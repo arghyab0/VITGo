@@ -11,7 +11,7 @@ router.get("/", async (req, res) => {
 
     res.status(200).json(users);
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json(`Error: ${err.message}`);
   }
 });
 
@@ -23,7 +23,7 @@ router.get("/:id", async (req, res) => {
 
     res.status(200).json(rest);
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json(`Error: ${err.message}`);
   }
 });
 
@@ -41,10 +41,10 @@ router.put("/blacklist/:id", async (req, res) => {
       );
       res.status(200).json(updatedUser);
     } catch (err) {
-      res.status(500).json(err);
+      res.status(500).json(`Error: ${err.message}`);
     }
   } else {
-    res.status(500).json("You are authorized to perform this action.");
+    res.status(500).json("Error: You are authorized to perform this action.");
   }
 });
 
@@ -62,10 +62,10 @@ router.put("/unblacklist/:id", async (req, res) => {
       );
       res.status(200).json(updatedUser);
     } catch (err) {
-      res.status(500).json(err);
+      res.status(500).json(`Error: ${err.message}`);
     }
   } else {
-    res.status(500).json("You are authorized to perform this action.");
+    res.status(500).json("Error: You are authorized to perform this action.");
   }
 });
 

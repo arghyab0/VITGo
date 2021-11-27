@@ -1,43 +1,28 @@
 //components
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Container, Row, Col, Table, Button } from "react-bootstrap";
-import axios from "axios";
+
+//actions
+import { fetchUsers } from "../redux/actions/usersActions";
+import { blacklistUsers } from "../redux/actions/usersActions";
+import { unblacklistUsers } from "../redux/actions/usersActions";
 
 const StudentList = () => {
-  const [students, setStudents] = useState([]);
+  const dispatch = useDispatch();
+  const users = useSelector((state) => state.users);
 
   const handleBlacklist = async (uid) => {
-    try {
-      const res = await axios.put("/api/user/blacklist/" + uid, {
-        userType: "Manager", //get from store
-      });
-      console.log(res.data);
-    } catch (err) {
-      console.log(err.response.data);
-    }
+    dispatch(blacklistUsers(uid));
   };
 
   const handleUnBlacklist = async (uid) => {
-    try {
-      const res = await axios.put("/api/user/unblacklist/" + uid, {
-        userType: "Manager", //get from store
-      });
-      console.log(res.data);
-    } catch (err) {
-      console.log(err.response.data);
-    }
+    dispatch(unblacklistUsers(uid));
   };
 
   useEffect(() => {
-    const fetchStudents = async () => {
-      const res = await axios.get("/api/user/");
-      const studentList = res.data.filter(
-        (item) => item.userType === "STUDENT"
-      );
-      setStudents(studentList);
-    };
-    fetchStudents();
-  }, []);
+    dispatch(fetchUsers());
+  }, [dispatch]);
 
   return (
     <>
@@ -61,7 +46,7 @@ const StudentList = () => {
                 </tr>
               </thead>
               <tbody>
-                {students.map((item) => (
+                {users.map((item) => (
                   <tr key={item.userID}>
                     <td>{item.userID}</td>
                     <td>{item.displayName}</td>

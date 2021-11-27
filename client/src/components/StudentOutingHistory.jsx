@@ -1,20 +1,9 @@
 //components
-// import { useEffect } from "react";
-// import { useLocation } from "react-router-dom";
 import { Table } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-
-//actions
-// import { fetchRequests } from "../redux/actions/requestsActions";
+import { useSelector } from "react-redux";
 
 const StudentOutingHistory = () => {
-  // const { search } = useLocation();
-  // const dispatch = useDispatch();
   const requests = useSelector((state) => state.requests);
-
-  // useEffect(() => {
-  //   dispatch(fetchRequests());
-  // }, [dispatch]);
 
   // useEffect(() => {
   //   const fetchRequests = async () => {

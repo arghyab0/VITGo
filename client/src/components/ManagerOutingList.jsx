@@ -1,5 +1,5 @@
 //components
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Table, Button } from "react-bootstrap";
 
 //actions
@@ -7,7 +7,6 @@ import { approveRejectRequests } from "../redux/actions/requestsActions";
 
 const ManagerOutingList = ({ reqData }) => {
   const dispatch = useDispatch();
-  const requests = useSelector((state) => state.requests);
 
   const handleAccept = async (reqID) => {
     dispatch(approveRejectRequests("APPROVED", reqID));

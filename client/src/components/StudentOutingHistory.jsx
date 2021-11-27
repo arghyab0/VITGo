@@ -1,38 +1,35 @@
 //components
-import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import { Table } from "react-bootstrap";
-import axios from "axios";
+import { useSelector } from "react-redux";
 
 const StudentOutingHistory = () => {
-  const [requests, setRequests] = useState([]);
-  const { search } = useLocation();
+  const requests = useSelector((state) => state.requests);
 
-  useEffect(() => {
-    const fetchRequests = async () => {
-      const res = await axios.get("/api/request/" + search);
-      res.data.sort((a, b) =>
-        a.createdAt > b.createdAt ? -1 : b.createdAt > a.createdAt ? 1 : 0
-      );
-      setRequests(res.data);
-    };
-    fetchRequests();
-  }, [search]);
+  // useEffect(() => {
+  //   const fetchRequests = async () => {
+  //     const res = await axios.get("/api/request/" + search);
+  //     res.data.sort((a, b) =>
+  //       a.createdAt > b.createdAt ? -1 : b.createdAt > a.createdAt ? 1 : 0
+  //     );
+  //     setRequests(res.data);
+  //   };
+  //   fetchRequests();
+  // }, [search]);
 
   return (
-    <Table responsive>
-      <thead>
-        <tr>
-          {["Raised at", "Request status", "Token"].map((item, index) => (
-            <th key={index}>{item}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {requests.map(
-          (item) =>
-            item.issuedBy === "6193b68bb2b336e4d2335211" && (
-              <tr key={item.id}>
+    <>
+      {requests.length > 0 ? (
+        <Table responsive>
+          <thead>
+            <tr>
+              {["Raised at", "Request status", "Token"].map((item, index) => (
+                <th key={index}>{item}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {requests.map((item) => (
+              <tr key={item._id}>
                 <td>
                   {`${new Date(item.createdAt).toDateString()} ${new Date(
                     item.createdAt
@@ -41,10 +38,13 @@ const StudentOutingHistory = () => {
                 <td>{item.requestStatus}</td>
                 <td>{item.token}</td>
               </tr>
-            )
-        )}
-      </tbody>
-    </Table>
+            ))}
+          </tbody>
+        </Table>
+      ) : (
+        <p className="text-center">No outing requests in history</p>
+      )}
+    </>
   );
 };
 

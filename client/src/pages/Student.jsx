@@ -1,13 +1,26 @@
 //components
+import { useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import StudentOutings from "../components/StudentOutings";
 import TotalRequestsCard from "../components/TotalRequestsCard";
 import BlacklistStatusCard from "../components/BlacklistStatusCard";
+
+//actions
+import { fetchRequests } from "../redux/actions/requestsActions";
 
 //stylesheet
 import "./stlyes/student.css";
 
 const Student = () => {
+  const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth);
+  const requests = useSelector((state) => state.requests);
+
+  useEffect(() => {
+    dispatch(fetchRequests());
+  }, [dispatch]);
+
   return (
     <>
       <Container>
@@ -15,16 +28,16 @@ const Student = () => {
           <Col md={1}></Col>
           <Col md={10}>
             <Row className="mt-5">
-              <h1>Hi, Arghya</h1>
+              <h1>Hi, {auth.displayName}</h1>
             </Row>
 
             <Row className="mt-5">
-              <h4>Current status: token generated - 2134</h4>
+              <h4>Current status: {auth.userStatus}</h4>
             </Row>
 
             <Row className="mt-5">
               <Col md={4} className="mb-3">
-                <TotalRequestsCard />
+                <TotalRequestsCard reqData={requests} />
               </Col>
 
               <Col md={4} className="mb-3">
@@ -36,7 +49,7 @@ const Student = () => {
               </Col>
 
               <Col md={4} className="mb-3">
-                <BlacklistStatusCard />
+                <BlacklistStatusCard userData={auth} />
               </Col>
             </Row>
 

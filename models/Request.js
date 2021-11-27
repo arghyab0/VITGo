@@ -4,9 +4,11 @@ const mongoose = require("mongoose");
 const RequestSchema = new mongoose.Schema(
   {
     issuedBy: { type: String, required: true },
+    issuedByRegNo: { type: String, required: true },
     contactNo: { type: String, required: true },
     requestStatus: { type: String, required: true },
     token: { type: Number, required: true },
+    managerAt: { type: Date },
     checkoutAt: { type: Date },
     checkinAt: { type: Date },
   },

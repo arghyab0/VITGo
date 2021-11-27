@@ -2,6 +2,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Container, Row, Col, Table, Button } from "react-bootstrap";
+import { Redirect } from "react-router";
 
 //actions
 import { fetchUsers } from "../redux/actions/usersActions";
@@ -11,6 +12,7 @@ import { unblacklistUsers } from "../redux/actions/usersActions";
 const StudentList = () => {
   const dispatch = useDispatch();
   const users = useSelector((state) => state.users);
+  const auth = useSelector((state) => state.auth);
 
   const handleBlacklist = async (uid) => {
     dispatch(blacklistUsers(uid));
@@ -23,6 +25,8 @@ const StudentList = () => {
   useEffect(() => {
     dispatch(fetchUsers());
   }, [dispatch]);
+
+  if (!auth._id) return <Redirect to="/login" />;
 
   return (
     <>

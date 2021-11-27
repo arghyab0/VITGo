@@ -1,9 +1,15 @@
 //components
+import { useSelector } from "react-redux";
+import { Redirect } from "react-router";
 import { Row, Col, Container } from "react-bootstrap";
 import RequestForm from "../components/RequestForm";
 import StudentOutingHistory from "../components/StudentOutingHistory";
 
 const Requests = () => {
+  const auth = useSelector((state) => state.auth);
+
+  if (!auth._id) return <Redirect to="/login" />;
+
   return (
     <>
       <Container>

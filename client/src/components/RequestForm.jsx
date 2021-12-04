@@ -24,7 +24,9 @@ const RequestForm = () => {
   const handleAddRequest = async (e) => {
     e.preventDefault();
 
-    dispatch(addRequest({ contactNo }));
+    dispatch(
+      addRequest({ contactNo, parentsContactNo, hours: Number(hours), purpose })
+    );
 
     resetFields();
   };

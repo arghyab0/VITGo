@@ -17,6 +17,9 @@ router.post("/", authMiddleware, async (req, res) => {
       issuedBy: req.body.issuedBy,
       issuedByRegNo: req.body.issuedByRegNo,
       contactNo: req.body.contactNo,
+      parentsContactNo: req.body.parentsContactNo,
+      hours: req.body.hours,
+      purpose: req.body.purpose,
       requestStatus: "RAISED",
       token: randToken,
     });
@@ -73,6 +76,7 @@ router.put("/manager/:id", authMiddleware, async (req, res) => {
             req.params.id,
             {
               requestStatus: req.body.requestStatus,
+              managerAt: new Date(),
             },
             { new: true }
           );
@@ -130,11 +134,13 @@ router.put("/security", authMiddleware, async (req, res) => {
           updatedStatus.flag = true;
           updatedStatus.req = "ONGOING";
           updatedStatus.user = "OUT";
+          updatedStatus.timeField = "checkoutAt";
         }
         if (request.requestStatus === "ONGOING") {
           updatedStatus.flag = true;
           updatedStatus.req = "COMPLETED";
           updatedStatus.user = "IN";
+          updatedStatus.timeField = "checkinAt";
         }
 
         if (updatedStatus.flag) {
@@ -144,6 +150,7 @@ router.put("/security", authMiddleware, async (req, res) => {
               request._id,
               {
                 requestStatus: updatedStatus?.req,
+                [updatedStatus?.timeField]: new Date(),
               },
               { new: true }
             );

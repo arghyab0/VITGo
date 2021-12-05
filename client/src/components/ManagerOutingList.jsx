@@ -1,6 +1,7 @@
 //components
 import { useDispatch } from "react-redux";
 import { Table, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 //actions
 import { approveRejectRequests } from "../redux/actions/requestsActions";
@@ -25,6 +26,7 @@ const ManagerOutingList = ({ reqData }) => {
             "Contact no.",
             "Raised at",
             "Request status",
+            "Info",
             "Action",
           ].map((item, index) => (
             <th key={index}>{item}</th>
@@ -42,6 +44,11 @@ const ManagerOutingList = ({ reqData }) => {
               ).toLocaleTimeString()}`}
             </td>
             <td>{item.requestStatus}</td>
+            <td>
+              <Button variant="outline-primary">
+                <Link to={`/request/${item._id}`}>Details</Link>
+              </Button>
+            </td>
             <td>
               {item.requestStatus === "RAISED" && (
                 <>

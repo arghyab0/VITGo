@@ -1,6 +1,7 @@
 //components
-import { Table } from "react-bootstrap";
+import { Table, Button } from "react-bootstrap";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const StudentOutingHistory = () => {
   const requests = useSelector((state) => state.requests);
@@ -22,9 +23,11 @@ const StudentOutingHistory = () => {
         <Table responsive>
           <thead>
             <tr>
-              {["Raised at", "Request status", "Token"].map((item, index) => (
-                <th key={index}>{item}</th>
-              ))}
+              {["Raised at", "Request status", "Token", "Info"].map(
+                (item, index) => (
+                  <th key={index}>{item}</th>
+                )
+              )}
             </tr>
           </thead>
           <tbody>
@@ -37,6 +40,11 @@ const StudentOutingHistory = () => {
                 </td>
                 <td>{item.requestStatus}</td>
                 <td>{item.token}</td>
+                <td>
+                  <Button variant="outline-primary">
+                    <Link to={`/request/${item._id}`}>Details</Link>
+                  </Button>
+                </td>
               </tr>
             ))}
           </tbody>

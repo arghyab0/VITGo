@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Admin from "./pages/Admin";
 import Requests from "./pages/Requests";
+import RequestDetails from "./pages/RequestDetails";
 import Header from "./components/Header";
 import StudentList from "./components/StudentList";
 
@@ -45,6 +46,11 @@ function App() {
           <Route path="/requests">
             <Header />
             <Requests />
+          </Route>
+
+          <Route path="/request/:reqID">
+            <Header />
+            <RequestDetails />
           </Route>
 
           <Route path="/students">

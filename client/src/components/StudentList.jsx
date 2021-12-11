@@ -50,28 +50,31 @@ const StudentList = () => {
                 </tr>
               </thead>
               <tbody>
-                {users.map((item) => (
-                  <tr key={item.userID}>
-                    <td>{item.userID}</td>
-                    <td>{item.displayName}</td>
-                    <td>{item.email}</td>
-                    <td>{item.userStatus}</td>
-                    <td>
-                      {item.userStatus !== "BLACKLIST" ? (
-                        <Button
-                          variant="danger"
-                          onClick={() => handleBlacklist(item._id)}
-                        >
-                          Blacklist
-                        </Button>
-                      ) : (
-                        <Button onClick={() => handleUnBlacklist(item._id)}>
-                          Unblacklist
-                        </Button>
-                      )}
-                    </td>
-                  </tr>
-                ))}
+                {users.map(
+                  (item) =>
+                    item.userType === "STUDENT" && (
+                      <tr key={item.userID}>
+                        <td>{item.userID}</td>
+                        <td>{item.displayName}</td>
+                        <td>{item.email}</td>
+                        <td>{item.userStatus}</td>
+                        <td>
+                          {item.userStatus !== "BLACKLIST" ? (
+                            <Button
+                              variant="danger"
+                              onClick={() => handleBlacklist(item._id)}
+                            >
+                              Blacklist
+                            </Button>
+                          ) : (
+                            <Button onClick={() => handleUnBlacklist(item._id)}>
+                              Unblacklist
+                            </Button>
+                          )}
+                        </td>
+                      </tr>
+                    )
+                )}
               </tbody>
             </Table>
           </Col>

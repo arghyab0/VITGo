@@ -1,20 +1,19 @@
 //components
-
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-const BlacklistedCard = ({ number }) => {
+const HistoryCard = ({ reqNo }) => {
   return (
     <Card>
       <Card.Body>
-        <Card.Title>Students blacklisted</Card.Title>
-        <Card.Text>{number}</Card.Text>
+        <Card.Title>Request history</Card.Title>
+        <Card.Text>Total outing requests issued: {reqNo}</Card.Text>
         <Card.Link className="d-flex justify-content-center">
-          <Link to="/students">View blacklisted students</Link>
+          <Link to="/requests">View history</Link>
         </Card.Link>
       </Card.Body>
     </Card>
   );
 };
 
-export default BlacklistedCard;
+export default HistoryCard;

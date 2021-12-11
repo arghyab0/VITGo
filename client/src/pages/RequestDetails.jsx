@@ -73,20 +73,29 @@ const RequestDetails = () => {
             <Row className="mt-4">
               <Col md={12} className="mb-4">
                 Outing request raised at: &nbsp;{" "}
-                {new Date(request?.createdAt).toLocaleString()}
+                {new Date(request.createdAt).toLocaleString()}
               </Col>
-              <Col md={12} className="mb-4">
-                Request approved/rejected by manager at: &nbsp;{" "}
-                {new Date(request?.managerAt).toLocaleString()}
-              </Col>
-              <Col md={12} className="mb-4">
-                Student checked-out of campus at: &nbsp;{" "}
-                {new Date(request?.checkoutAt).toLocaleString()}
-              </Col>
-              <Col md={12} className="mb-4">
-                Student checked-in to cmapus at: &nbsp;{" "}
-                {new Date(request?.checkinAt).toLocaleString()}
-              </Col>
+
+              {request?.managerAt && (
+                <Col md={12} className="mb-4">
+                  Request approved/rejected by manager at: &nbsp;{" "}
+                  {new Date(request.managerAt).toLocaleString()}
+                </Col>
+              )}
+
+              {request?.checkoutAt && (
+                <Col md={12} className="mb-4">
+                  Student checked-out of campus at: &nbsp;{" "}
+                  {new Date(request.checkoutAt).toLocaleString()}
+                </Col>
+              )}
+
+              {request?.checkinAt && (
+                <Col md={12} className="mb-4">
+                  Student checked-in to campus at: &nbsp;{" "}
+                  {new Date(request.checkinAt).toLocaleString()}
+                </Col>
+              )}
             </Row>
           </Col>
           <Col md={1}></Col>
